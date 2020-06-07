@@ -9,6 +9,7 @@ import io.papermc.lib.PaperLib;
 import me.glaremasters.tpsgonewild.Tpsgonewild;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAlias("tpgw")
 public class CommandTP extends BaseCommand {
@@ -16,8 +17,8 @@ public class CommandTP extends BaseCommand {
 
     @Default
     @CommandPermission("tpgw.tp")
-    public void execute(Player player) {
-        final Location location = tpsgonewild.getLocationUtil().getRandomLocationInsideWorldBorder(player.getWorld());
+    public void execute(@NotNull final Player player) {
+        final Location location = tpsgonewild.getLocationUtil().getRandLocation(player.getWorld());
         PaperLib.teleportAsync(player, player.getWorld().getHighestBlockAt(location).getLocation());
     }
 }
