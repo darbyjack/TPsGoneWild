@@ -1,6 +1,9 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
 
 group = 'me.glaremasters'
 version = '1.0'
@@ -15,13 +18,33 @@ repositories {
         url = 'https://papermc.io/repo/repository/maven-public/'
     }
     maven {
+        url = 'https://repo.aikar.co/content/groups/aikar/'
+    }
+    maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
 }
 
+compileJava {
+    options.compilerArgs += ["-parameters"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
+shadowJar {
+    minimize()
+    relocate 'io.papermc.lib', 'me.glaremasters.tpsgonewild.libs.paperlib'
+    relocate 'co.aikar.commands', 'me.glaremasters.tpsgonewild.libs.acf'
+    relocate 'co.aikar.locales', 'me.glaremasters.tpsgonewild.libs.locales'
+    archiveFileName = "TPsGoneWild-${project.version}.jar"
+}
+
 dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.15.2-R0.1-SNAPSHOT'
+
+    implementation "io.papermc:paperlib:1.0.3"
+    implementation "co.aikar:acf-paper:0.5.0-SNAPSHOT"
 }
 
 processResources {

@@ -1,6 +1,6 @@
 name: TPsGoneWild
 version: @version@
 main: me.glaremasters.tpsgonewild.Tpsgonewild
-api-version: 1.15.2
+api-version: 1.15
 authors: [Glare]
 description: TPsGoneWild
