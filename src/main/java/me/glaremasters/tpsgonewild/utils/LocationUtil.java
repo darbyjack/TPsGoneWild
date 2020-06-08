@@ -35,20 +35,8 @@ public class LocationUtil {
         TRANSPARENT_MATERIALS.addAll(WATER_TYPES);
     }
 
-    public static void setIsWaterSafe(boolean isWaterSafe) {
-        if (isWaterSafe) {
-            HOLLOW_MATERIALS.addAll(WATER_TYPES);
-        } else {
-            HOLLOW_MATERIALS.removeAll(WATER_TYPES);
-        }
-    }
-
     public static final int RADIUS = 3;
     public static final Vector3D[] VOLUME;
-
-    public static ItemStack convertBlockToItem(final Block block) {
-        return new ItemStack(block.getType(), 1);
-    }
 
 
     public static class Vector3D {
@@ -76,31 +64,8 @@ public class LocationUtil {
         VOLUME = pos.toArray(new Vector3D[0]);
     }
 
-    public static Location getTarget(final LivingEntity entity) throws Exception {
-        Block block = null;
-        try {
-            block = entity.getTargetBlock(TRANSPARENT_MATERIALS, 300);
-        } catch (NoSuchMethodError ignored) {
-        } // failing now :(
-        if (block == null) {
-            throw new Exception("Not targeting a block");
-        }
-        return block.getLocation();
-    }
-
     public static boolean isBlockAboveAir(final World world, final int x, final int y, final int z) {
         return y > world.getMaxHeight() || HOLLOW_MATERIALS.contains(world.getBlockAt(x, y - 1, z).getType());
-    }
-
-    public static boolean isBlockUnsafeForUser(final Player player, final World world, final int x, final int y, final int z) {
-        if (player.isOnline() && world.equals(player.getWorld())) {
-            return false;
-        }
-
-        if (isBlockDamaging(world, x, y, z)) {
-            return true;
-        }
-        return isBlockAboveAir(world, x, y, z);
     }
 
     public static boolean isBlockUnsafe(final World world, final int x, final int y, final int z) {
@@ -134,19 +99,6 @@ public class LocationUtil {
         }
 
         return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType()));
-    }
-
-    // Not needed if using getSafeDestination(loc)
-    public static Location getRoundedDestination(final Location loc) {
-        final World world = loc.getWorld();
-        int x = loc.getBlockX();
-        int y = (int) Math.round(loc.getY());
-        int z = loc.getBlockZ();
-        return new Location(world, x + 0.5, y, z + 0.5, loc.getYaw(), loc.getPitch());
-    }
-
-    public static Location getSafeDestination(final Player player, final Location loc) {
-        return getSafeDestination(loc);
     }
 
     public static Location getRandLocation(@NotNull final World world) {
