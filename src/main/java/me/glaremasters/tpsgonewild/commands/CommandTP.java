@@ -15,7 +15,7 @@ public class CommandTP extends BaseCommand {
 
     @Default
     @CommandPermission("tpgw.tp")
-    public void execute(@NotNull final Player player) {
+    public final void execute(@NotNull final Player player) {
         final Location location = LocationUtil.getRandLocation(player.getWorld());
         PaperLib.teleportAsync(player, LocationUtil.getSafeDestination(location));
     }

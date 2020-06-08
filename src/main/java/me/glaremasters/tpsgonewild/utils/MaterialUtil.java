@@ -9,7 +9,6 @@ import java.util.Set;
  */
 public class MaterialUtil {
 
-
     private static final Set<Material> BEDS;
 
     static {
